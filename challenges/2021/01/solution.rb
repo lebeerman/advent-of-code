@@ -1,16 +1,18 @@
 # frozen_string_literal: true
+require 'enumerator'
 module Year2021
   class Day01 < Solution
     # @input is available if you need the raw data input
     # Call `data` to access either an array of the parsed data, or a single record for a 1-line input file
 
     def part_1
-      processed_input = process_input(@input.split("\n"))
-      process_dataset(processed_input)
+      processed_input = process_input(@input.split)
+      count_increasing_values(processed_input)
     end
 
     def part_2
-      nil
+      processed_input = process_input(@input.split)
+      count_increasing_sets(processed_input)
     end
 
     private
@@ -20,14 +22,27 @@ module Year2021
       end
 
       # Processes the dataset as a whole
-      def process_dataset(set)
-        temp = []
+      def count_increasing_values(set)
+        count = 0
         set.each_with_index do |value, index|
           if value > set[index - 1]
-            temp.push(value)
+            count += 1
           end
         end
-        temp.length
+        count
+      end
+
+      def count_increasing_sets(set)
+        prev = nil
+        count = 0
+        set.each_cons(3).each_with_index do |group, i|
+          p group.sum
+          if prev && group.sum > prev.sum
+            count += 1
+          end
+          prev = group
+        end
+        count
       end
   end
 end
