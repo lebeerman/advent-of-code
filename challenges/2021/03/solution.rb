@@ -6,7 +6,10 @@ module Year2021
     # Call `data` to access either an array of the parsed data, or a single record for a 1-line input file
 
     def part_1
-      nil
+      # gamma = binary number, bits are most common bit for each index of input
+      # epsilon = binary number, bits are least common bit for each index of input
+      
+      data
     end
 
     def part_2

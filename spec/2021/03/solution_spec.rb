@@ -6,8 +6,18 @@ RSpec.describe Year2021::Day03 do
   let(:input) { File.read(File.join(File.dirname(__FILE__), '../../../challenges/2021/03/input.txt')) }
   let(:example_input) do
     <<~EOF
-      change
-      me
+    00100
+    11110
+    10110
+    10111
+    10101
+    01111
+    00111
+    11100
+    10000
+    11001
+    00010
+    01010
     EOF
   end
 
