@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require 'enumerator'
+
 module Year2021
   class Day01 < Solution
     # @input is available if you need the raw data input
@@ -16,33 +16,30 @@ module Year2021
     end
 
     private
-      # Processes each line of the input file and stores the result in the dataset
-      def process_input(line)
-        line.map(&:to_i)
-      end
 
-      # Processes the dataset as a whole
-      def count_increasing_values(set)
-        count = 0
-        set.each_with_index do |value, index|
-          if value > set[index - 1]
-            count += 1
-          end
-        end
-        count
-      end
+    # Processes each line of the input file and stores the result in the dataset
+    def process_input(line)
+      line.map(&:to_i)
+    end
 
-      def count_increasing_sets(set)
-        prev = nil
-        count = 0
-        set.each_cons(3).each_with_index do |group, i|
-          p group.sum
-          if prev && group.sum > prev.sum
-            count += 1
-          end
-          prev = group
-        end
-        count
+    # Processes the dataset as a whole
+    def count_increasing_values(set)
+      count = 0
+      set.each_with_index do |value, index|
+        count += 1 if value > set[index - 1]
       end
+      count
+    end
+
+    def count_increasing_sets(set)
+      prev = nil
+      count = 0
+      set.each_cons(3).each_with_index do |group, _i|
+        p group.sum
+        count += 1 if prev && group.sum > prev.sum
+        prev = group
+      end
+      count
+    end
   end
 end

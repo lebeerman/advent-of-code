@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 module Submarine
   class Movement
     def initialize(data)
       @x_position = 0
       @y_position = 0
       @position = 0
+      @aim = 0
       process_movement(data)
     end
 
@@ -12,41 +15,25 @@ module Submarine
     end
 
     def process_movement(data)
-      move_hash = movement_hash(data)
-      process_x(move_hash[:x])
-      process_y(move_hash[:y])
-    end
-
-    def movement_hash(dataset)
-      x_movement, y_movement = dataset.partition do |move_string|
-        move_string.include? "forward" || "backwards"
-      end
-      { x: x_movement, y: y_movement }
-    end
-
-    def process_x(move_list)
-      move_list.each do |move|
+      data.each do |move|
         move = move.split
-        if move.include? "forward"
-          move
+        case move[0]
+        when 'forward'
           @x_position += move[1].to_i
-        else
+          handle_aim(move[1].to_i)
+        when 'backward'
           @x_position -= move[1].to_i
+          handle_aim(-move[1].to_i)
+        when 'up'
+          @aim -= move[1].to_i
+        when 'down'
+          @aim += move[1].to_i
         end
       end
     end
 
-    # down is positive cuz depth...
-    def process_y(move_list)
-      move_list.each do |move|
-        move = move.split
-        if move.include? "up"
-          move
-          @y_position -= move[1].to_i
-        else
-          @y_position += move[1].to_i
-        end
-      end
+    def handle_aim(x_move)
+      @y_position += @aim * x_move
     end
   end
 end
